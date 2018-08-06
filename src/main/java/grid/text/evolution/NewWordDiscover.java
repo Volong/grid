@@ -21,11 +21,13 @@ public class NewWordDiscover {
 
 	/**
 	 * Minimum word length
+	 * 最小词的长度
 	 */
 	private final static int MIN_CANDIDATE_LEN = 2;
 
 	/**
 	 * Maximum word length
+	 * 最大词的长度
 	 */
 	private final static int MAX_CANDIDATE_LEN = 6;
 
@@ -49,6 +51,8 @@ public class NewWordDiscover {
 	 * New word discover is based on statistic and entropy, better to sure
 	 * document size is in 100kb level, or you may get a unsatisfied result.
 	 * 
+	 * 新词发现基于统计以及熵，最后确保 document 的大小在 100kb 左右，否则你可能会得到一个不太满意的结果
+	 * 
 	 * @param document
 	 * @return
 	 */
@@ -56,8 +60,7 @@ public class NewWordDiscover {
 
 		Set<String> set = new HashSet<String>();
 		TextIndexer indexer = new CnPreviewTextIndexer(document);
-		TextSelector selector = new CnTextSelector(document, MIN_CANDIDATE_LEN,
-				MAX_CANDIDATE_LEN);
+		TextSelector selector = new CnTextSelector(document, MIN_CANDIDATE_LEN, MAX_CANDIDATE_LEN);
 		EntropyJudger judger = new EntropyJudger(indexer);
 		String candidate;
 		while (!selector.end()) {

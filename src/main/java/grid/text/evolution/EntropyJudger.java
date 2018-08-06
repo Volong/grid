@@ -15,27 +15,37 @@ public class EntropyJudger {
 	private TextIndexer indexer;
 
 	/**
-	 * A word least appeared count
+	 * A word least appeared count <br>
+	 * 一个词至少出现的次数
 	 */
 	private static int LEAST_COUNT_THRESHOLD = 5;
 
 	/**
 	 * Threshold for solid rate calculated by word appeared count and every
-	 * single letter.
+	 * single letter. <br>
+	 * 通过字数以及每个字母计算固定比率的阀值 <br>
 	 * 
 	 * The smaller this values is, more new words you will get, but with less
 	 * accuracy. The greater this value is, less new words you will get, but
 	 * with high accuracy.
+	 * 
+	 * 这个值越低，会得到更多的新词，但是准确度比较低 <br>
+	 * 这个值越高，会得到更少的新词，但是准确度比较高
 	 */
 	private static double SOLID_RATE_THRESHOLD = 0.018;
 
 	/**
 	 * Threshold for entropy value calculated by candidate word prefix character
-	 * count and suffix character count
+	 * count and suffix character count <br>
+	 * 熵值的阀值通过候选词前面的词以及后面的词的数量计算得到 <br>
 	 * 
 	 * The smaller this values is, more new words you will get, but with less
 	 * accuracy. The greater this value is, less new words you will get, but
 	 * with high accuracy.
+	 * 
+	 * 这个值越低，会得到更多的新词，但是准确度比较低 <br>
+     * 这个值越高，会得到更少的新词，但是准确度比较高
+	 * 
 	 */
 	private static double ENTROPY_THRESHOL = 1.92;
 

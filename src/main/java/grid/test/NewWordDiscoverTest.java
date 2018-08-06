@@ -18,12 +18,12 @@ public class NewWordDiscoverTest {
 	public static void main(String args[]) throws IOException {
 		// Replace your document here
 		String document = TextDatReader.read(path);
-
 		NewWordDiscover discover = new NewWordDiscover();
 		long start = System.currentTimeMillis();
 		Set<String> words = discover.discover(document);
 		System.out.println("Speed: " + (double) document.length()
 				/ (System.currentTimeMillis() - start) * 1000);
 		System.out.println("New words size: " + words.size());
+		System.out.println(words);
 	}
 }
