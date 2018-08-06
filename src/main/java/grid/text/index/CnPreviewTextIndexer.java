@@ -24,17 +24,20 @@ public class CnPreviewTextIndexer implements TextIndexer {
 		init();
 	}
 
+	/**
+	 *  将 document 中的字符放到 posMap 中
+	 *
+	 */
 	private void init() {
 		final int len = document.length();
 
-		final int supposedMinCount = 1 + (int) Math.log(len / CN_LETTER_COUNT
-				+ 1);
+		final int supposedMinCount = 1 + (int) Math.log(len / CN_LETTER_COUNT + 1);
 
 		char c;
 
 		Vector<Integer> posVector;
 
-		posMap = new HashMap<Character, Vector<Integer>>(CN_LETTER_COUNT);
+		posMap = new HashMap<>(CN_LETTER_COUNT);
 
 		for (int i = 0; i < len; i++) {
 			c = document.charAt(i);

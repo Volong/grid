@@ -58,7 +58,7 @@ public class NewWordDiscover {
 	 */
 	public Set<String> discover(String document) {
 
-		Set<String> set = new HashSet<String>();
+		Set<String> set = new HashSet<>();
 		TextIndexer indexer = new CnPreviewTextIndexer(document);
 		TextSelector selector = new CnTextSelector(document, MIN_CANDIDATE_LEN, MAX_CANDIDATE_LEN);
 		EntropyJudger judger = new EntropyJudger(indexer);
@@ -75,6 +75,7 @@ public class NewWordDiscover {
 			}
 			// Replace IF clause with "set.contains(candidate)" if you want to
 			// find new word without any dictionary
+			// 如果你想在没有词典的情况下发现新词，可以用 "set.contains(candidate)" 提到 if 语句
 			if (dictionary.contains(candidate) || set.contains(candidate)) {
 				selector.select();
 			} else if (judger.judge(candidate)) {

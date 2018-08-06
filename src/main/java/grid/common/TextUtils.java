@@ -7,6 +7,14 @@ package grid.common;
  */
 public class TextUtils {
 
+	/**
+	 *  https://www.qqxiuzi.cn/zh/hanzi-unicode-bianma.php
+	 *   
+	 *  \u4E00 = 一    \u9FCB = 熕
+	 *  
+	 * @param c
+	 * @return
+	 */
 	public static boolean isCnLetter(char c) {
 		return c >= 0x4E00 && c <= 0x9FCB;
 	}
