@@ -17,71 +17,76 @@ import java.util.Set;
  */
 public class NewWordDiscover {
 
-	private CnDictionary dictionary;
+    private CnDictionary dictionary;
 
-	/**
-	 * Minimum word length
-	 * ×îĞ¡´ÊµÄ³¤¶È
-	 */
-	private final static int MIN_CANDIDATE_LEN = 2;
+    /**
+     * Minimum word length
+     * æœ€å°è¯çš„é•¿åº¦
+     */
+    private final static int MIN_CANDIDATE_LEN = 2;
 
-	/**
-	 * Maximum word length
-	 * ×î´ó´ÊµÄ³¤¶È
-	 */
-	private final static int MAX_CANDIDATE_LEN = 6;
+    /** 
+     * Maximum word length
+     * æœ€å¤§è¯çš„é•¿åº¦
+     */
+    private final static int MAX_CANDIDATE_LEN = 6;
 
-	private static Set<Character> structuralLetterSet = new HashSet<Character>();
+    private static Set<Character> structuralLetterSet = new HashSet<>();
 
-	private static char[] structuralLetters = { 'ÎÒ', 'Äã', 'Äú', 'Ëû', 'Ëı', 'Ë­',
-			'ÄÄ', 'ÄÇ', 'Õâ', 'µÄ', 'ÁË', '×Å', 'Ò²', 'ÊÇ', 'ÓĞ', '²»', 'ÔÚ', 'Óë', 'ÄØ',
-			'°¡', 'Ñ½', '°É', 'àÅ', 'Å¶', '¹ş', 'ÄÅ' };
+    /**
+     *  åœé¡¿è¯
+     */
+    private static char[] structuralLetters = { 'æˆ‘', 'ä½ ', 'æ‚¨', 'ä»–', 'å¥¹', 'è°',
+            'å“ª', 'é‚£', 'è¿™', 'çš„', 'äº†', 'ç€', 'ä¹Ÿ', 'æ˜¯', 'æœ‰', 'ä¸', 'åœ¨', 'ä¸', 'å‘¢',
+            'å•Š', 'å‘€', 'å§', 'å—¯', 'å“¦', 'å“ˆ', 'å‘' };
 
-	static {
-		for (char c : structuralLetters) {
-			structuralLetterSet.add(c);
-		}
-	}
+    static {
+        for (char c : structuralLetters) {
+            structuralLetterSet.add(c);
+        }
+    }
 
-	public NewWordDiscover() {
-		dictionary = CnDictionary.Instance();
-	}
+    public NewWordDiscover() {
+        dictionary = CnDictionary.instance();
+    }
 
-	/**
-	 * New word discover is based on statistic and entropy, better to sure
-	 * document size is in 100kb level, or you may get a unsatisfied result.
-	 * 
-	 * ĞÂ´Ê·¢ÏÖ»ùÓÚÍ³¼ÆÒÔ¼°ìØ£¬×îºóÈ·±£ document µÄ´óĞ¡ÔÚ 100kb ×óÓÒ£¬·ñÔòÄã¿ÉÄÜ»áµÃµ½Ò»¸ö²»Ì«ÂúÒâµÄ½á¹û
-	 * 
-	 * @param document
-	 * @return
-	 */
-	public Set<String> discover(String document) {
+    /**
+     * New word discover is based on statistic and entropy, better to sure
+     * document size is in 100kb level, or you may get a unsatisfied result.
+     * 
+     * æ–°è¯å‘ç°åŸºäºç»Ÿè®¡ä»¥åŠç†µï¼Œæœ€åç¡®ä¿ document çš„å¤§å°åœ¨ 100kb å·¦å³ï¼Œå¦åˆ™ä½ å¯èƒ½ä¼šå¾—åˆ°ä¸€ä¸ªä¸å¤ªæ»¡æ„çš„ç»“æœ
+     * 
+     * @param document
+     * @return
+     */
+    public Set<String> discover(String document) {
 
-		Set<String> set = new HashSet<>();
-		TextIndexer indexer = new CnPreviewTextIndexer(document);
-		TextSelector selector = new CnTextSelector(document, MIN_CANDIDATE_LEN, MAX_CANDIDATE_LEN);
-		EntropyJudger judger = new EntropyJudger(indexer);
-		String candidate;
-		while (!selector.end()) {
-			candidate = selector.next();
-			if (TextUtils.isBlank(candidate)) {
-				continue;
-			}
-			if (structuralLetterSet.contains(candidate.charAt(0))
-					|| structuralLetterSet.contains(candidate.charAt(candidate
-							.length() - 1))) {
-				continue;
-			}
-			// Replace IF clause with "set.contains(candidate)" if you want to
-			// find new word without any dictionary
-			// Èç¹ûÄãÏëÔÚÃ»ÓĞ´ÊµäµÄÇé¿öÏÂ·¢ÏÖĞÂ´Ê£¬¿ÉÒÔÓÃ "set.contains(candidate)" Ìáµ½ if Óï¾ä
-			if (dictionary.contains(candidate) || set.contains(candidate)) {
-				selector.select();
-			} else if (judger.judge(candidate)) {
-				set.add(candidate);
-			}
-		}
-		return set;
-	}
+        Set<String> set = new HashSet<>();
+        TextIndexer indexer = new CnPreviewTextIndexer(document);
+        TextSelector selector = new CnTextSelector(document, MIN_CANDIDATE_LEN, MAX_CANDIDATE_LEN);
+        EntropyJudger judger = new EntropyJudger(indexer);
+        String candidate;
+        while (!selector.end()) {
+            candidate = selector.next();
+            if (TextUtils.isBlank(candidate)) {
+                continue;
+            }
+            if (structuralLetterSet.contains(candidate.charAt(0))
+                    || structuralLetterSet.contains(candidate.charAt(candidate
+                            .length() - 1))) {
+                continue;
+            }
+            // Replace IF clause with "set.contains(candidate)" if you want to
+            // find new word without any dictionary
+            // å¦‚æœä½ æƒ³åœ¨æ²¡æœ‰è¯å…¸çš„æƒ…å†µä¸‹å‘ç°æ–°è¯ï¼Œå¯ä»¥ç”¨ "set.contains(candidate)" æåˆ° if è¯­å¥
+            // å¦‚æœè¯å…¸ä¸­åŒ…å«è¿™ä¸ªè¯ï¼Œæˆ–è€…è¿™ä¸ªè¯å·²ç»è¢«å½“ä½œæ–°è¯æ‰¾åˆ°
+            if (dictionary.contains(candidate) || set.contains(candidate)) {
+                // ä½ç½®å¾€åç§»
+                selector.select();
+            } else if (judger.judge(candidate)) { // æ‰¾åˆ°äº†ä¸€ä¸ªæ–°è¯
+                set.add(candidate);
+            }
+        }
+        return set;
+    }
 }

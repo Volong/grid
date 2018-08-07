@@ -3,7 +3,7 @@ package grid.text.selector;
 import grid.common.TextUtils;
 
 /**
- * CnTextSelector.java 2013-9-20 обнГ02:57:15
+ * CnTextSelector.java 2013-9-20
  * 
  * @Author George Bourne
  */

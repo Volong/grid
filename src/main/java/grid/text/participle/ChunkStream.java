@@ -30,13 +30,13 @@ public class ChunkStream {
 	 */
 	private static final int PREDICT_LEVEL = 3;
 
-	private static CnDictionary dictionary = CnDictionary.Instance();
+	private static CnDictionary dictionary = CnDictionary.instance();
 
 	public String next(String text, int off) {
-		Tree<String> root = new Tree<String>("ROOT");
+		Tree<String> root = new Tree<>("ROOT");
 		recurse(root, off, text, 0);
 		List<Node<String>> list = root.getLeaves();
-		List<Chunk> chunkList = new ArrayList<Chunk>();
+		List<Chunk> chunkList = new ArrayList<>();
 		for (Node<String> node : list) {
 			chunkList.add(new Chunk(node.getBranchPath()));
 		}

@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class NewWordDiscoverTest {
 
-	private final static String path = "text.dat";
+	private final static String path = "test.txt";
 
 	public static void main(String args[]) throws IOException {
 		// Replace your document here
@@ -22,8 +22,10 @@ public class NewWordDiscoverTest {
 		long start = System.currentTimeMillis();
 		Set<String> words = discover.discover(document);
 		System.out.println("Speed: " + (double) document.length()
-				/ (System.currentTimeMillis() - start) * 1000);
+				/ (System.currentTimeMillis() - start) * 1000 + "ms");
 		System.out.println("New words size: " + words.size());
 		System.out.println(words);
 	}
 }
+
+

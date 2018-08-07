@@ -9,12 +9,15 @@ public class Pos {
 	private String target;
 
 	/**
-	 * Pos for current matched full target text
+	 * Pos for current matched full target text <br>
+	 * 当前文本所在的位置
 	 */
 	private int pos = -1;
 
 	/**
-	 * Index in position array for current matched full target text
+	 * Index in position array for current matched full target text <br>
+	 * 当前文本在位置列表中的索引
+	 * 
 	 */
 	int arrayIndex = -1;
 

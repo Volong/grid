@@ -11,7 +11,7 @@ import java.util.Vector;
  */
 public class ParticipleTest {
 
-	private static String document = "ÄãµÄ²âÊÔÎÄµµ";
+	private static String document = "ä½ çš„æµ‹è¯•æ–‡æ¡£";
 
 	public static void main(String args[]) {
 		MechanicalParticiple participle = new MechanicalParticiple();

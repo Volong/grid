@@ -27,6 +27,15 @@ public class TextUtils {
 		return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 	}
 
+	/**
+	 * 
+	 * 
+	 *
+	 * @param src 源字符串
+	 * @param off  
+	 * @param dest 需要查找的字符串
+	 * @return
+	 */
 	public static boolean match(String src, int off, String dest) {
 		int len = dest.length();
 		int srcLen = src.length();

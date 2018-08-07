@@ -2,7 +2,6 @@ package grid.common;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -15,9 +14,10 @@ import java.nio.charset.Charset;
 public class TextDatReader {
 	public static String read(String path) throws IOException {
 		File file = new File(path);
-		InputStreamReader reader = new InputStreamReader(new FileInputStream(file), Charset.forName("gbk"));
-		char buffer[] = new char[(int) file.length()];
-		reader.read(buffer);
-		return new String(buffer);
+		try (InputStreamReader reader = new InputStreamReader(new FileInputStream(file), Charset.forName("utf8"))) {
+		    char[] buffer = new char[(int) file.length()];
+		    reader.read(buffer);
+		    return new String(buffer);
+		}
 	}
 }

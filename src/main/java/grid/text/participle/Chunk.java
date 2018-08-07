@@ -82,7 +82,7 @@ public class Chunk implements Comparable<Chunk> {
 			return d;
 		}
 
-		CnDictionary dictionary = CnDictionary.Instance();
+		CnDictionary dictionary = CnDictionary.instance();
 
 		double rateSrc = 0, rateDest = 0;
 		for (String s : list) {

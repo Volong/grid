@@ -13,10 +13,13 @@ import java.util.Vector;
  */
 public class CnPreviewTextIndexer implements TextIndexer {
 
-	private final static int CN_LETTER_COUNT = 5021;
+	private static final int CN_LETTER_COUNT = 5021;
 
 	private String document;
 
+	/**
+	 *  统计每一个词出现的位置
+	 */
 	private Map<Character, Vector<Integer>> posMap;
 
 	public CnPreviewTextIndexer(String document) {
@@ -46,7 +49,7 @@ public class CnPreviewTextIndexer implements TextIndexer {
 			}
 			posVector = posMap.get(c);
 			if (null == posVector) {
-				posVector = new Vector<Integer>(supposedMinCount);
+				posVector = new Vector<>(supposedMinCount);
 				posMap.put(c, posVector);
 			}
 			posVector.add(i);
@@ -99,12 +102,14 @@ public class CnPreviewTextIndexer implements TextIndexer {
 		}
 
 		final int arraySize = vector.size();
+		// arrayIndex 默认为 -1，所以第一次查找时，值为 0
 		final int arrayIndex = pos.arrayIndex + 1;
 
 		for (int i = arrayIndex; i < arraySize; i++) {
 			if (TextUtils.match(document, vector.get(i), text)) {
 				pos.setFound(true);
 				pos.setPos(vector.get(i));
+				// 找到了当前文本，则将当前文本所在位置列表的索引赋值给 arrayIndex 
 				pos.arrayIndex = i;
 				break;
 			}

@@ -15,23 +15,25 @@ import java.util.Set;
  */
 public class CnDictionary {
 
-	private final String COMMON_WORD_DIC_PATH = "common.dic";
+	private static final String COMMON_WORD_DIC_PATH = "common.dic";
 
 	/**
 	 * This text data is for character statistic. Change to your own if you
-	 * like.
+	 * like. <br>
+	 * 
+	 * 这个数据是用来对字符进行统计，你可以改成你自己的数据
 	 */
-	private final String COMMON_LETTER_RESOURCE_PATH = "text.dat";
+	private static final String COMMON_LETTER_RESOURCE_PATH = "test.txt";
 
-	private Set<String> dictionary = new HashSet<String>();
+	private Set<String> dictionary = new HashSet<>();
 
-	private CountMap<Character> letterCountMap = new CountMap<Character>();
+	private CountMap<Character> letterCountMap = new CountMap<>();
 
 	private int totalLetterCount;
 
 	private static CnDictionary instance;
 
-	public static CnDictionary Instance() {
+	public static CnDictionary instance() {
 		if (null == instance) {
 			try {
 				instance = new CnDictionary();

@@ -23,7 +23,7 @@ public class EntropyJudger {
 	/**
 	 * Threshold for solid rate calculated by word appeared count and every
 	 * single letter. <br>
-	 * 通过字数以及每个字母计算固定比率的阀值 <br>
+	 * 通过字数以及每个字母计算凝合度的阀值 <br>
 	 * 
 	 * The smaller this values is, more new words you will get, but with less
 	 * accuracy. The greater this value is, less new words you will get, but
@@ -41,7 +41,7 @@ public class EntropyJudger {
 	 * 
 	 * The smaller this values is, more new words you will get, but with less
 	 * accuracy. The greater this value is, less new words you will get, but
-	 * with high accuracy.
+	 * with high accuracy. <br>
 	 * 
 	 * 这个值越低，会得到更多的新词，但是准确度比较低 <br>
      * 这个值越高，会得到更少的新词，但是准确度比较高
@@ -54,6 +54,7 @@ public class EntropyJudger {
 	}
 
 	public boolean judge(String candidate) {
+	    
 		double solidRate = getSolidRate(candidate);
 
 		if (solidRate < SOLID_RATE_THRESHOLD) {
@@ -61,7 +62,6 @@ public class EntropyJudger {
 		}
 
 		double entropy = getEntropy(candidate);
-
 		if (entropy < ENTROPY_THRESHOL) {
 			return false;
 		}
@@ -70,20 +70,25 @@ public class EntropyJudger {
 
 	private double getEntropy(String candidate) {
 		Pos pos = new Pos(candidate);
-		CountMap<Character> frontCountMap = new CountMap<Character>();
-		CountMap<Character> backCountMap = new CountMap<Character>();
+		CountMap<Character> frontCountMap = new CountMap<>();
+		CountMap<Character> backCountMap = new CountMap<>();
 		final int candidateLen = candidate.length();
 		int off = 0;
 		char c;
-		double rate, frontEntropy = 0, backEntropy = 0;
+		double rate;
+		double frontEntropy = 0;
+		double backEntropy = 0;
 
 		while (indexer.find(pos).isFound()) {
 			off = pos.getPos();
-
+			
+			// 查找前一个词
 			c = indexer.charAt(off - 1);
 			if (TextUtils.isCnLetter(c)) {
 				frontCountMap.increase(c);
 			}
+			
+			// 查找后一个词
 			c = indexer.charAt(off + candidateLen);
 			if (TextUtils.isCnLetter(c)) {
 				backCountMap.increase(c);
@@ -92,6 +97,7 @@ public class EntropyJudger {
 		}
 
 		for (char key : frontCountMap.keySet()) {
+		    // 当前 key 出现的次数 / 所有 key 出现的次数
 			rate = (double) frontCountMap.get(key) / frontCountMap.count();
 			frontEntropy -= rate * Math.log(rate);
 		}
@@ -99,7 +105,8 @@ public class EntropyJudger {
 			rate = (double) backCountMap.get(key) / backCountMap.count();
 			backEntropy -= rate * Math.log(rate);
 		}
-
+		
+		// 熵越小，可能性越大 
 		return frontEntropy > backEntropy ? backEntropy : frontEntropy;
 
 	}

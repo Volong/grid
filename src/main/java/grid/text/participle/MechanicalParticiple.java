@@ -12,7 +12,7 @@ import java.util.Vector;
 public class MechanicalParticiple {
 
 	public Vector<String> partition(String document) {
-		Vector<String> vector = new Vector<String>();
+		Vector<String> vector = new Vector<>();
 		final int docLen = document.length();
 		int off = 0;
 		char c;
