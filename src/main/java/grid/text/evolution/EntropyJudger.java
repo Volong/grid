@@ -18,7 +18,7 @@ public class EntropyJudger {
 	 * A word least appeared count <br>
 	 * 一个词至少出现的次数
 	 */
-	private static int LEAST_COUNT_THRESHOLD = 5;
+	private static int LEAST_COUNT_THRESHOLD = 3;
 
 	/**
 	 * Threshold for solid rate calculated by word appeared count and every
@@ -31,6 +31,8 @@ public class EntropyJudger {
 	 * 
 	 * 这个值越低，会得到更多的新词，但是准确度比较低 <br>
 	 * 这个值越高，会得到更少的新词，但是准确度比较高
+	 * 
+	 * 默认为： 0.018
 	 */
 	private static double SOLID_RATE_THRESHOLD = 0.018;
 
@@ -46,8 +48,9 @@ public class EntropyJudger {
 	 * 这个值越低，会得到更多的新词，但是准确度比较低 <br>
      * 这个值越高，会得到更少的新词，但是准确度比较高
 	 * 
+	 * 默认为 1.92
 	 */
-	private static double ENTROPY_THRESHOL = 1.92;
+	private static double ENTROPY_THRESHOL = 1.0;
 
 	public EntropyJudger(TextIndexer indexer) {
 		this.indexer = indexer;
@@ -62,6 +65,7 @@ public class EntropyJudger {
 		}
 
 		double entropy = getEntropy(candidate);
+		
 		if (entropy < ENTROPY_THRESHOL) {
 			return false;
 		}
@@ -80,6 +84,8 @@ public class EntropyJudger {
 		double backEntropy = 0;
 
 		while (indexer.find(pos).isFound()) {
+		    
+		    // 候选词所出现的位置
 			off = pos.getPos();
 			
 			// 查找前一个词
@@ -99,6 +105,7 @@ public class EntropyJudger {
 		for (char key : frontCountMap.keySet()) {
 		    // 当前 key 出现的次数 / 所有 key 出现的次数
 			rate = (double) frontCountMap.get(key) / frontCountMap.count();
+			// 熵 = -p * log(p)
 			frontEntropy -= rate * Math.log(rate);
 		}
 		for (char key : backCountMap.keySet()) {
@@ -112,29 +119,40 @@ public class EntropyJudger {
 	}
 
 	/**
+	 * 
+	 * 凝合度
 	 * @param candidate
 	 * @return
 	 */
 	public double getSolidRate(String candidate) {
 
 		final int candidateLen = candidate.length();
-
-		if (candidateLen < 2) {
-			return 1;
-		}
-
-		final int count = indexer.count(candidate);
 		double rate = 1;
-
-		if (count < LEAST_COUNT_THRESHOLD) {
+		
+		// 为什么词的长度 < 2 的凝合度确实 1，而出现的频次小于 LEAST_COUNT_THRESHOLD 的词凝合度却是 0？
+		if (candidateLen < 2) {
 			return 0;
 		}
 
+		final int count = indexer.count(candidate);
+
+		if (count < LEAST_COUNT_THRESHOLD) {
+//			return 0;
+		    return 0;
+		}
+		
+		/*
+		 *  理想的情况: rate = 1
+		 *  假设词 [电影院] 在一段文本中出现了 100 次，这个词里面的字都是以同样的顺序一起出现，没有单独出现，或者跟其它的字搭配出现
+		 *  那么这个三个字出现的总次数就是 300 次，也就是理想情况下 rate = 1
+		 *  但是如果这三个字还出现在了其它的词当中，那么这三个字加起来的次数会 > 300，也就是 rate < 1
+		 */
 		for (int i = 0; i < candidateLen; i++) {
 			rate *= (double) count / indexer.count("" + candidate.charAt(i));
 		}
 
-		return Math.pow(rate, 1D / candidateLen) * Math.sqrt(candidateLen);
+//		return Math.pow(rate, 1D / candidateLen) * Math.sqrt(candidateLen);
+		return rate;
 	}
 
 	public void setIndexer(TextIndexer indexer) {

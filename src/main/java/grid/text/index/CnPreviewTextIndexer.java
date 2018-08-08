@@ -18,7 +18,7 @@ public class CnPreviewTextIndexer implements TextIndexer {
 	private String document;
 
 	/**
-	 *  统计每一个词出现的位置
+	 *  统计样本中每一个词出现的位置
 	 */
 	private Map<Character, Vector<Integer>> posMap;
 
@@ -69,13 +69,15 @@ public class CnPreviewTextIndexer implements TextIndexer {
 			return 0;
 		}
 
+		// 如果词的长度为 1，那么出现的次数就是词位置列表的长度
 		if (1 == text.length()) {
 			return vector.size();
 		}
 
 		final int size = vector.size();
 		int count = 0;
-
+		
+		// 如果词的长度大于 1，统计该文本出现的次数
 		for (int i = 0; i < size; i++) {
 			if (TextUtils.match(document, vector.get(i), text)) {
 				count++;
@@ -106,10 +108,12 @@ public class CnPreviewTextIndexer implements TextIndexer {
 		final int arrayIndex = pos.arrayIndex + 1;
 
 		for (int i = arrayIndex; i < arraySize; i++) {
+		    
 			if (TextUtils.match(document, vector.get(i), text)) {
 				pos.setFound(true);
 				pos.setPos(vector.get(i));
-				// 找到了当前文本，则将当前文本所在位置列表的索引赋值给 arrayIndex 
+				// 找到了当前文本，则将当前文本所在位置列表的索引赋值给 arrayIndex
+				// 相当于记录了这次查找到的位置，下一次直接从这个位置开始往下找
 				pos.arrayIndex = i;
 				break;
 			}

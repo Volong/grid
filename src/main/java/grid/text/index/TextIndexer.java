@@ -8,7 +8,7 @@ package grid.text.index;
 public interface TextIndexer {
 
 	/**
-	 * 指定文本出现的次数
+	 * 指定文本出现的次数 <br>
 	 * 
 	 * @param text
 	 * @return count for specific text

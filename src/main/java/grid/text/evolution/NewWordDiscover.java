@@ -21,13 +21,13 @@ public class NewWordDiscover {
 
     /**
      * Minimum word length
-     * 最小词的长度
+     * 候选词的最小长度
      */
     private final static int MIN_CANDIDATE_LEN = 2;
 
     /** 
      * Maximum word length
-     * 最大词的长度
+     * 候选词的最大长度
      */
     private final static int MAX_CANDIDATE_LEN = 6;
 
@@ -71,6 +71,7 @@ public class NewWordDiscover {
             if (TextUtils.isBlank(candidate)) {
                 continue;
             }
+            // 如果是停顿词
             if (structuralLetterSet.contains(candidate.charAt(0))
                     || structuralLetterSet.contains(candidate.charAt(candidate
                             .length() - 1))) {

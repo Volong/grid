@@ -28,8 +28,8 @@ public class TextUtils {
 	}
 
 	/**
-	 * 
-	 * 
+	 *  
+	 *  dest 是否在 src 中的 off 位置出现过
 	 *
 	 * @param src 源字符串
 	 * @param off  
@@ -37,12 +37,13 @@ public class TextUtils {
 	 * @return
 	 */
 	public static boolean match(String src, int off, String dest) {
-		int len = dest.length();
+		int destLen = dest.length();
 		int srcLen = src.length();
-		for (int i = 0; i < len; i++) {
+		for (int i = 0; i < destLen; i++) {
 			if (srcLen <= off + i) {
 				return false;
 			}
+			// 判断 dest 是不是在 src 中作为一个整体出现
 			if (dest.charAt(i) != src.charAt(off + i)) {
 				return false;
 			}
