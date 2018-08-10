@@ -50,13 +50,14 @@ public class EntropyJudger {
 	 * 
 	 * 默认为 1.92
 	 */
-	private static double ENTROPY_THRESHOL = 1.0;
+	private static double ENTROPY_THRESHOL = 1.92;
 
 	public EntropyJudger(TextIndexer indexer) {
 		this.indexer = indexer;
 	}
 
 	public boolean judge(String candidate) {
+	    
 	    
 		double solidRate = getSolidRate(candidate);
 
